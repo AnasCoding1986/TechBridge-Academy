@@ -14,14 +14,14 @@ const guardianSchema = new Schema<Guardian>({
   motherName: { type: String, required: true },
   motherOccupation: { type: String, required: true },
   motherContactNo: { type: String, required: true },
-})
+});
 
 const localGuardianSchema = new Schema<LocalGuardian>({
   name: { type: String, required: true },
   occupation: { type: String, required: true },
   conactNo: { type: String, required: true },
   address: { type: String, required: true },
-})
+});
 
 const studentSchema = new Schema<IStudent>(
   {
@@ -41,7 +41,7 @@ const studentSchema = new Schema<IStudent>(
     guardian: guardianSchema,
     localGuardian: localGuardianSchema,
     profileImg: { type: String },
-    isActive: { type: String, enum: ['active', 'inActive'], required: true },
+    isActive: { type: String, enum: ['active', 'inActive'], default: 'active' },
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
