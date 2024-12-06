@@ -7,6 +7,6 @@ router.post('/create-student', studentController.createStudent)
 
 router.get('/', studentController.getAllStudents)
 
-// router.get('/:studentID', studentController)
+router.get('/:studentID', studentController.getSingleStudent)
 
 export const studentRoutes = router;

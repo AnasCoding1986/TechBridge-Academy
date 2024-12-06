@@ -17,21 +17,39 @@ const createStudent = async (req: Request, res: Response) => {
   }
 };
 
-const getAllStudents = async (req:Request, res:Response) => {
+const getAllStudents = async (req: Request, res: Response) => {
   try {
     const result = await studentServices.getAllStudentsFromDB();
 
     res.status(200).json({
-      success:true,
-      message:"All studends data retribe dsuccessfully",
-      data:result
-    })
+      success: true,
+      message: 'All studends data retribe dsuccessfully',
+      data: result,
+    });
   } catch (error) {
     console.log(error);
   }
-}
+};
+
+const getSingleStudent = async (req: Request, res: Response) => {
+  try {
+    const { studentID } = req.params;
+
+    const result = await studentServices.getSingleStudentDB(studentID);
+
+    res.status(200).json({
+      success: true,
+      message: 'Single Student data retribed successfully',
+      data: result,
+    });
+  } catch (error) {
+    console.log(error);
+    
+  }
+};
 
 export const studentController = {
-    createStudent,
-    getAllStudents
-}
+  createStudent,
+  getAllStudents,
+  getSingleStudent
+};
