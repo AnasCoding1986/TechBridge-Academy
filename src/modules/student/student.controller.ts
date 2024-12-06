@@ -17,6 +17,21 @@ const createStudent = async (req: Request, res: Response) => {
   }
 };
 
+const getAllStudents = async (req:Request, res:Response) => {
+  try {
+    const result = await studentServices.getAllStudentsFromDB();
+
+    res.status(200).json({
+      success:true,
+      message:"All studends data retribe dsuccessfully",
+      data:result
+    })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const studentController = {
-    createStudent
+    createStudent,
+    getAllStudents
 }
