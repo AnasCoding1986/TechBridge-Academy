@@ -5,7 +5,12 @@ const nameSchema = new Schema<Name>({
   firstName: { 
     type: String, 
     required: [true, 'First name is required'], 
-    maxlength: 20,
+    trim:true,
+    maxlength: [20, 'Max length allowed 20'],
+    validate:function (value:string) {
+      console.log(value);
+      
+    }
   },
   middleName: { 
     type: String 
