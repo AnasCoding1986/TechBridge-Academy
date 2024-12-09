@@ -125,7 +125,7 @@ const studentSchema = new Schema<IStudent>(
       unique: true,
       validate: {
         validator: (value: string) => validator.isEmail(value),
-        message: '{VALUE} is not a valid email',
+        message: '{VALUE} is not a valid all from chat gpt email',
       },
     },
     contactNo: {
