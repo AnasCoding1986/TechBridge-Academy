@@ -1,3 +1,4 @@
+import { Student } from './student.model';
 import validator from 'validator';
 import { Schema, model } from 'mongoose';
 import { Guardian, IStudent, LocalGuardian, Name, studentMethods, StudentModel } from './student.interface';
@@ -188,10 +189,10 @@ const studentSchema = new Schema<IStudent,StudentModel, studentMethods>(
   }
 );
 
-studentSchema.method.isUserExists = async function (id:string) {
-  const existingUser = await StudentModel.findOne({id});
+studentSchema.methods.isUserExists = async function (id:string) {
+  const existingUser = await Student.findOne({id});
   return existingUser
 }
 
 // Export the model
-export const Student = model<IStudent>('Student', studentSchema);
+export const Student = model<IStudent,StudentModel>('Student', studentSchema);

@@ -1,9 +1,15 @@
+import { error } from 'console';
 import { IStudent } from './student.interface';
 import { Student } from './student.model';
 
 const createStudentIntoDB = async (student: IStudent) => {
   // const result = await Student.create(student);
   const studentInstanceMethod = new Student(student);
+
+  if (studentInstanceMethod.isUserExists) {
+    throw new Error('User already exists')
+  }
+  
   const result = await studentInstanceMethod.save();
   return result;
 };

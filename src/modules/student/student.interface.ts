@@ -40,7 +40,11 @@ export type IStudent = {
 };
 
 export type studentMethods = {
-  isUserExists(id:string):Promise<IStudent>
-}
+  isUserExists(id: string): Promise<IStudent | null>;
+};
 
-export type StudentModel = Model<IStudent, Record<string,never>, studentMethods>
+export type StudentModel = Model<
+  IStudent,
+  Record<string, never>,
+  studentMethods
+>;
