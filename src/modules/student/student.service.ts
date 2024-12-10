@@ -6,8 +6,8 @@ const createStudentIntoDB = async (student: IStudent) => {
   // const result = await Student.create(student);
   const studentInstanceMethod = new Student(student);
 
-  if (studentInstanceMethod.isUserExists) {
-    throw new Error('User already exists')
+  if (await studentInstanceMethod.isUserExists(student.id)) {
+    throw new Error('User  already exists')
   }
   
   const result = await studentInstanceMethod.save();

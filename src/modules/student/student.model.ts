@@ -1,4 +1,3 @@
-import { Student } from './student.model';
 import validator from 'validator';
 import { Schema, model } from 'mongoose';
 import { Guardian, IStudent, LocalGuardian, Name, studentMethods, StudentModel } from './student.interface';
@@ -179,7 +178,7 @@ const studentSchema = new Schema<IStudent,StudentModel, studentMethods>(
       type: String,
       enum: {
         values: ['active', 'inActive'],
-        message: '{VALUE} must be either "active" or "inActive"',
+        message: '{VALUE} must be either "active" or in "inActive"',
       },
       default: 'active',
     },
