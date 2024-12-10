@@ -1,6 +1,16 @@
-import validator from 'validator';
+import validator, { isByteLength } from 'validator';
 import { Schema, model } from 'mongoose';
-import { Guardian, IStudent, LocalGuardian, Name, studentMethods, StudentModel } from './student.interface';
+import {
+  Guardian,
+  IStudent,
+  LocalGuardian,
+  Name,
+  studentMethods,
+  StudentModel,
+} from './student.interface';
+import bcrypt from 'bcrypt';
+import { log } from 'console';
+import config from '../../app/config';
 
 // Name Schema
 const nameSchema = new Schema<Name>({
@@ -36,15 +46,15 @@ const nameSchema = new Schema<Name>({
 const guardianSchema = new Schema<Guardian>({
   fatherName: {
     type: String,
-    required: [true, 'Father\'s name is required'],
+    required: [true, "Father's name is required"],
   },
   fatherOccupation: {
     type: String,
-    required: [true, 'Father\'s occupation is required'],
+    required: [true, "Father's occupation is required"],
   },
   fatherContactNo: {
     type: String,
-    required: [true, 'Father\'s contact number is required'],
+    required: [true, "Father's contact number is required"],
     validate: {
       validator: (value: string) => validator.isMobilePhone(value, 'any'),
       message: '{VALUE} is not a valid phone number',
@@ -52,15 +62,15 @@ const guardianSchema = new Schema<Guardian>({
   },
   motherName: {
     type: String,
-    required: [true, 'Mother\'s name is required'],
+    required: [true, "Mother's name is required"],
   },
   motherOccupation: {
     type: String,
-    required: [true, 'Mother\'s occupation is required'],
+    required: [true, "Mother's occupation is required"],
   },
   motherContactNo: {
     type: String,
-    required: [true, 'Mother\'s contact number is required'],
+    required: [true, "Mother's contact number is required"],
     validate: {
       validator: (value: string) => validator.isMobilePhone(value, 'any'),
       message: '{VALUE} is not a valid phone number',
@@ -72,15 +82,15 @@ const guardianSchema = new Schema<Guardian>({
 const localGuardianSchema = new Schema<LocalGuardian>({
   name: {
     type: String,
-    required: [true, 'Local guardian\'s name is required'],
+    required: [true, "Local guardian's name is required"],
   },
   occupation: {
     type: String,
-    required: [true, 'Local guardian\'s occupation is required'],
+    required: [true, "Local guardian's occupation is required"],
   },
   contactNo: {
     type: String,
-    required: [true, 'Local guardian\'s contact number is required'],
+    required: [true, "Local guardian's contact number is required"],
     validate: {
       validator: (value: string) => validator.isMobilePhone(value, 'any'),
       message: '{VALUE} is not a valid phone number',
@@ -88,17 +98,22 @@ const localGuardianSchema = new Schema<LocalGuardian>({
   },
   address: {
     type: String,
-    required: [true, 'Local guardian\'s address is required'],
+    required: [true, "Local guardian's address is required"],
   },
 });
 
 // Student Schema
-const studentSchema = new Schema<IStudent,StudentModel, studentMethods>(
+const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
   {
     id: {
       type: String,
       required: [true, 'Student ID is required'],
       unique: true,
+    },
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
+      maxlength: [20, 'Password can not be more than 20 character'],
     },
     name: {
       type: nameSchema,
@@ -108,7 +123,8 @@ const studentSchema = new Schema<IStudent,StudentModel, studentMethods>(
       type: String,
       enum: {
         values: ['male', 'female'],
-        message: '{VALUE} is not valid. Gender must be either "male" or "female".',
+        message:
+          '{VALUE} is not valid. Gender must be either "male" or "female".',
       },
       required: [true, 'Gender is required'],
     },
@@ -185,13 +201,29 @@ const studentSchema = new Schema<IStudent,StudentModel, studentMethods>(
   },
   {
     timestamps: true, // Automatically add createdAt and updatedAt
-  }
+  },
 );
 
-studentSchema.methods.isUserExists = async function (id:string) {
-  const existingUser = await Student.findOne({id});
-  return existingUser
-}
+studentSchema.methods.isUserExists = async function (id: string) {
+  const existingUser = await Student.findOne({ id });
+  return existingUser;
+};
+
+studentSchema.pre('save', async function (next) {
+  const user = this;
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_rounds),
+  );
+  next()
+});
+
+studentSchema.post('save', function (doc,next) {
+  doc.password = '';
+  console.log(this);
+  
+  next()
+});
 
 // Export the model
-export const Student = model<IStudent,StudentModel>('Student', studentSchema);
+export const Student = model<IStudent, StudentModel>('Student', studentSchema);
