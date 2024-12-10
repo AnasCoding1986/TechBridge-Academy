@@ -1,8 +1,9 @@
 import { Name } from './student.interface';
-import { z } from "zod";
+import { z } from 'zod';
 import { Request, Response } from 'express';
 import { studentServices } from './student.service';
 import studentZvalidationSchema from './student.zod.validation';
+import { error } from 'console';
 
 const createStudent = async (req: Request, res: Response) => {
   try {
@@ -17,14 +18,17 @@ const createStudent = async (req: Request, res: Response) => {
       message: 'Student created successfully',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'something went wrong',
+      error: error,
+    });
   }
 };
 
 const getAllStudents = async (req: Request, res: Response) => {
   try {
-
     const result = await studentServices.getAllStudentsFromDB();
 
     res.status(200).json({
@@ -54,12 +58,11 @@ const getSingleStudent = async (req: Request, res: Response) => {
     });
   } catch (error) {
     console.log(error);
-    
   }
 };
 
 export const studentController = {
   createStudent,
   getAllStudents,
-  getSingleStudent
+  getSingleStudent,
 };
