@@ -1,4 +1,4 @@
-import { Schema, model, connect } from 'mongoose';
+import { Model } from 'mongoose';
 
 export type Name = {
   firstName: string;
@@ -38,3 +38,9 @@ export type IStudent = {
   profileImg?: string; // Optional field for profile image
   isActive: 'active' | 'inActive'; // Status field
 };
+
+export type studentMethods = {
+  isUserExists(id:string):Promise<IStudent>
+}
+
+export type StudentModel = Model<IStudent, Record<string,never>, studentMethods>

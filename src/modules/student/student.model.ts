@@ -1,6 +1,6 @@
 import validator from 'validator';
 import { Schema, model } from 'mongoose';
-import { Guardian, IStudent, LocalGuardian, Name } from './student.interface';
+import { Guardian, IStudent, LocalGuardian, Name, studentMethods, StudentModel } from './student.interface';
 
 // Name Schema
 const nameSchema = new Schema<Name>({
@@ -93,7 +93,7 @@ const localGuardianSchema = new Schema<LocalGuardian>({
 });
 
 // Student Schema
-const studentSchema = new Schema<IStudent>(
+const studentSchema = new Schema<IStudent,StudentModel, studentMethods>(
   {
     id: {
       type: String,
@@ -187,6 +187,11 @@ const studentSchema = new Schema<IStudent>(
     timestamps: true, // Automatically add createdAt and updatedAt
   }
 );
+
+studentSchema.method.isUserExists = async function (id:string) {
+  const existingUser = await StudentModel.findOne({id});
+  return existingUser
+}
 
 // Export the model
 export const Student = model<IStudent>('Student', studentSchema);

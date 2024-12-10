@@ -2,22 +2,24 @@ import { IStudent } from './student.interface';
 import { Student } from './student.model';
 
 const createStudentIntoDB = async (student: IStudent) => {
-  const result = await Student.create(student);
-  return result
+  // const result = await Student.create(student);
+  const studentInstanceMethod = new Student(student);
+  const result = await studentInstanceMethod.save();
+  return result;
 };
 
-const getAllStudentsFromDB = async() => {
+const getAllStudentsFromDB = async () => {
   const result = await Student.find();
-  return result
-}
+  return result;
+};
 
-const getSingleStudentDB = async(id:string) => {
-  const result = await Student.findOne({id});
-  return result
-}
+const getSingleStudentDB = async (id: string) => {
+  const result = await Student.findOne({ id });
+  return result;
+};
 
 export const studentServices = {
-    createStudentIntoDB,
-    getAllStudentsFromDB,
-    getSingleStudentDB
-}
+  createStudentIntoDB,
+  getAllStudentsFromDB,
+  getSingleStudentDB,
+};
