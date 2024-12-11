@@ -198,8 +198,15 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
       },
       default: 'active',
     },
+    isDeleted:{
+      type: Boolean,
+      default:false
+    }
   },
   {
+    toJSON:{
+      virtuals:true
+    },
     timestamps: true, // Automatically add createdAt and updatedAt
   },
 );
@@ -208,6 +215,12 @@ studentSchema.methods.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
   return existingUser;
 };
+
+studentSchema.virtual('FullName').get(function () {
+  return (
+    `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
+  )
+})
 
 studentSchema.pre('save', async function (next) {
   const user = this;
@@ -224,6 +237,16 @@ studentSchema.post('save', function (doc,next) {
   
   next()
 });
+
+studentSchema.pre("find", function (next) {
+  this.find({isDeleted:{$ne:true}});
+  next()
+});
+
+studentSchema.pre("findOne", function (next) {
+  this.find({isDeleted:{$ne:true}});
+  next()
+})
 
 // Export the model
 export const Student = model<IStudent, StudentModel>('Student', studentSchema);

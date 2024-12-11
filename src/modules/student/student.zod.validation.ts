@@ -10,7 +10,7 @@ const nameZValidationSchema = z.object({
         value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() === value,
       {
         message: 'First name must be in capitalize format',
-      }
+      },
     ),
   middleName: z.string().optional(),
   lastName: z
@@ -51,7 +51,9 @@ const localGuardianZValidationSchema = z.object({
 
 const studentZvalidationSchema = z.object({
   id: z.string().min(1, { message: 'Student ID is required' }),
-  password: z.string().max(20, { message: 'Password can not be more than 20 charecter' }),
+  password: z
+    .string()
+    .max(20, { message: 'Password can not be more than 20 charecter' }),
   name: nameZValidationSchema,
   gender: z.enum(['male', 'female'], {
     errorMap: () => ({ message: 'Gender must be either "male" or "female"' }),
@@ -83,6 +85,7 @@ const studentZvalidationSchema = z.object({
       message: 'Status must be either "active" or "inActive"',
     }),
   }),
+  isDeleted: z.boolean(),
 });
 
 export default studentZvalidationSchema;

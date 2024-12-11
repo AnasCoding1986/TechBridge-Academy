@@ -38,6 +38,7 @@ export type IStudent = {
   localGuardian: LocalGuardian;
   profileImg?: string; // Optional field for profile image
   isActive: 'active' | 'inActive'; // Status field
+  isDeleted:boolean;
 };
 
 export type studentMethods = {
