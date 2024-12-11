@@ -36,7 +36,7 @@ const getAllStudents = async (req: Request, res: Response) => {
       message: 'All studends data retribe dsuccessfully',
       data: result,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).json({
       success: false,
       message: 'Something wrong',
@@ -56,8 +56,12 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'Single Student data retribed successfully',
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: 'Something wrong',
+      error: error,
+    });
   }
 };
 
