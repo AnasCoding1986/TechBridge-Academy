@@ -198,14 +198,14 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
       },
       default: 'active',
     },
-    isDeleted:{
+    isDeleted: {
       type: Boolean,
-      default:false
-    }
+      default: false,
+    },
   },
   {
-    toJSON:{
-      virtuals:true
+    toJSON: {
+      virtuals: true,
     },
     timestamps: true, // Automatically add createdAt and updatedAt
   },
@@ -217,10 +217,8 @@ studentSchema.methods.isUserExists = async function (id: string) {
 };
 
 studentSchema.virtual('FullName').get(function () {
-  return (
-    `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
-  )
-})
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
+});
 
 studentSchema.pre('save', async function (next) {
   const user = this;
@@ -228,25 +226,33 @@ studentSchema.pre('save', async function (next) {
     user.password,
     Number(config.bcrypt_salt_rounds),
   );
-  next()
+  next();
 });
 
-studentSchema.post('save', function (doc,next) {
+studentSchema.post('save', function (doc, next) {
   doc.password = '';
   console.log(this);
-  
-  next()
+
+  next();
 });
 
-studentSchema.pre("find", function (next) {
-  this.find({isDeleted:{$ne:true}});
-  next()
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
 });
 
-studentSchema.pre("findOne", function (next) {
-  this.find({isDeleted:{$ne:true}});
-  next()
-})
+studentSchema.pre('findOne', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+
+// [ { '$match': { id: 'S12345' } } ]
+
+studentSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
+
+  next();
+});
 
 // Export the model
 export const Student = model<IStudent, StudentModel>('Student', studentSchema);
