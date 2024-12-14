@@ -1,10 +1,12 @@
+import { UserService } from './user.service';
+
 const createStudent = async (req: Request, res: Response) => {
   try {
-    const student = req.body;
+    const { password, student } = req.body;
 
-    const zParseData = studentZvalidationSchema.parse(student);
+    // const zParseData = studentZvalidationSchema.parse(student);
 
-    const result = await studentServices.createStudentIntoDB(zParseData);
+    const result = await UserService.createStudentIntoDB(password, student);
 
     res.status(200).json({
       success: true,

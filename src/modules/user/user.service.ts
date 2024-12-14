@@ -1,17 +1,16 @@
-import { User } from "./user.model";
+import config from '../../app/config';
+import { IStudent } from '../student/student.interface';
+import { User } from './user.model';
 
-const createStudentIntoDB = async (student: IStudent) => {
-  // const result = await Student.create(student);
-//   const studentInstanceMethod = new Student(student);
+const createStudentIntoDB = async (password: string, student: IStudent) => {
+  if (!password) {
+    password = config.default_pass as string;
+  }
 
-//   if (await studentInstanceMethod.isUserExists(student.id)) {
-//     throw new Error('User for better already exists')
-//   }
-  
   const result = await User.create(student);
   return result;
 };
 
 export const UserService = {
-    createStudentIntoDB
-}
+  createStudentIntoDB,
+};
