@@ -110,6 +110,12 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
       required: [true, 'Student ID is required'],
       unique: true,
     },
+    user:{
+      type:Schema.Types.ObjectId,
+      required:[true, 'User id is required'],
+      unique:true,
+      ref: 'User'
+    },
     password: {
       type: String,
       required: [true, 'Password is required'],
@@ -189,14 +195,6 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
         validator: (value: string) => validator.isURL(value),
         message: '{VALUE} is not a valid URL',
       },
-    },
-    isActive: {
-      type: String,
-      enum: {
-        values: ['active', 'inActive'],
-        message: '{VALUE} must be either "active" or in "inActive"',
-      },
-      default: 'active',
     },
     isDeleted: {
       type: Boolean,

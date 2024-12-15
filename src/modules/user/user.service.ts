@@ -1,12 +1,13 @@
-import { NewUser } from './user.interface';
+import { NewUser, TUser } from './user.interface';
 
 import config from '../../app/config';
 import { IStudent } from '../student/student.interface';
 import { User } from './user.model';
-import { object } from 'zod';
+import { Student } from '../student/student.model';
+
 
 const createStudentIntoDB = async (password: string, student: IStudent) => {
-  const user: NewUser = {};
+  const user: Partial<TUser> = {};
   user.role = 'student';
   user.id='202412001'
 
@@ -16,10 +17,11 @@ const createStudentIntoDB = async (password: string, student: IStudent) => {
 
   if (Object.keys(result).length) {
     student.id = result.id;
-    student.user = result._id
-  }
+    student.user = result._id;
 
-  return result;
+    const newStudent = await Student.create(student);
+    return newStudent
+  }
 };
 
 export const UserService = {
