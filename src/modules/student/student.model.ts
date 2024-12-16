@@ -8,7 +8,6 @@ import {
   studentMethods,
   StudentModel,
 } from './student.interface';
-import bcrypt from 'bcrypt';
 import { log } from 'console';
 import config from '../../app/config';
 
@@ -213,21 +212,6 @@ studentSchema.virtual('FullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
 
-studentSchema.pre('save', async function (next) {
-  const user = this;
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds),
-  );
-  next();
-});
-
-studentSchema.post('save', function (doc, next) {
-  doc.password = '';
-  console.log(this);
-
-  next();
-});
 
 studentSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });
