@@ -116,11 +116,6 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
       unique:true,
       ref: 'User'
     },
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-      maxlength: [20, 'Password can not be more than 20 character'],
-    },
     name: {
       type: nameSchema,
       required: [true, 'Name is required'],
