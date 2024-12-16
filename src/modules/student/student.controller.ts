@@ -1,11 +1,11 @@
 import { Name } from './student.interface';
 import { z } from 'zod';
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { studentServices } from './student.service';
 import studentZvalidationSchema from './student.zod.validation';
 import { error } from 'console';
 
-const getAllStudents = async (req: Request, res: Response) => {
+const getAllStudents = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const result = await studentServices.getAllStudentsFromDB();
 
@@ -14,16 +14,12 @@ const getAllStudents = async (req: Request, res: Response) => {
       message: 'All studends data retribe dsuccessfully',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Something wrong',
-      error: error,
-    });
+  } catch (error) {
+    next(error)
   }
 };
 
-const getSingleStudent = async (req: Request, res: Response) => {
+const getSingleStudent = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const { studentID } = req.params;
 
@@ -34,16 +30,12 @@ const getSingleStudent = async (req: Request, res: Response) => {
       message: 'Single Student data retribed successfully',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: 'Something wrong',
-      error: error,
-    });
+  } catch (error) {
+    next(error)
   }
 };
 
-const deleteStudent = async (req: Request, res: Response) => {
+const deleteStudent = async (req: Request, res: Response, next:NextFunction) => {
   try {
     const { studentId } = req.params;
 
@@ -54,12 +46,8 @@ const deleteStudent = async (req: Request, res: Response) => {
       message: 'Student is deleted successfully',
       data: result,
     });
-  } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message || 'Something went wrong',
-      error: error,
-    });
+  } catch (error) {
+    next(error)
   }
 };
 
