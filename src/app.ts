@@ -4,6 +4,7 @@ import { studentRoutes } from './modules/student/student.router'
 import { UserRoutes } from './modules/user/user.router'
 import { error } from 'console'
 import { any } from 'zod'
+import globalErrorFn from './middlewire/globalErrorHandler'
 const app: Application = express()
 
 // parser
@@ -20,16 +21,7 @@ const getAController = (req:Request, res:Response) => {
 
 app.get('/', getAController)
 
-app.use((error: any, req: Request, res: Response, next: NextFunction) => {
-  const statusCode = 500;
-  const message = error.message || 'Something went wrong';
-
-  res.status(statusCode).json({
-    success: false,
-    message,
-    error, // Pass the full error object or filter it if needed
-  });
-});
+app.use(globalErrorFn);
 
 export default app
 
