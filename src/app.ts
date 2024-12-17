@@ -6,6 +6,7 @@ import { error } from 'console'
 import { any } from 'zod'
 import globalErrorFn from './middlewire/globalErrorHandler'
 import notFound from './middlewire/notFound'
+import router from './routes'
 
 
 const app: Application = express()
@@ -15,8 +16,7 @@ app.use(express.json())
 app.use(cors())
 
 // application routes
-app.use('/api/v1/students', studentRoutes);
-app.use('/api/v1/users', UserRoutes);
+app.use('/api/v1', router)
 
 const getAController = (req:Request, res:Response) => {
   res.send('Hello World!')
