@@ -5,6 +5,9 @@ import { UserRoutes } from './modules/user/user.router'
 import { error } from 'console'
 import { any } from 'zod'
 import globalErrorFn from './middlewire/globalErrorHandler'
+import notFound from './middlewire/notFound'
+
+
 const app: Application = express()
 
 // parser
@@ -22,6 +25,7 @@ const getAController = (req:Request, res:Response) => {
 app.get('/', getAController)
 
 app.use(globalErrorFn);
+app.use(notFound);
 
 export default app
 
