@@ -6,58 +6,47 @@ import studentZvalidationSchema from './student.zod.validation';
 import { error } from 'console';
 import sendResponse from '../../utils/sendResponse';
 import HttpStatus from 'http-status';
+import catchAsync from '../../utils/catchAsync';
 
-const getAllStudents:RequestHandler = async (req, res, next) => {
-  try {
-    const result = await studentServices.getAllStudentsFromDB();
+const getAllStudents: RequestHandler = catchAsync(async (req, res) => {
+  const result = await studentServices.getAllStudentsFromDB();
 
-    sendResponse(res,{
-      statusCode:HttpStatus.OK,
-      success:true,
-      messagw:'student is created successfully with clean code',
-      data:result
-    })
-  } catch (error) {
-    next(error)
-  }
-};
+  sendResponse(res, {
+    statusCode: HttpStatus.OK,
+    success: true,
+    messagw: 'student is created successfully with clean code',
+    data: result,
+  });
+});
 
-const getSingleStudent:RequestHandler = async (req, res, next) => {
-  try {
-    const { studentID } = req.params;
+const getSingleStudent: RequestHandler = catchAsync(async (req, res) => {
+  const { studentID } = req.params;
 
-    const result = await studentServices.getSingleStudentDB(studentID);
-    
-    sendResponse(res,{
-      statusCode:HttpStatus.OK,
-      success:true,
-      messagw:'student is retribed successfully with clean code',
-      data:result
-    })
-  } catch (error) {
-    next(error)
-  }
-};
+  const result = await studentServices.getSingleStudentDB(studentID);
 
-const deleteStudent:RequestHandler = async (req, res, next) => {
-  try {
-    const { studentId } = req.params;
+  sendResponse(res, {
+    statusCode: HttpStatus.OK,
+    success: true,
+    messagw: 'student is retribed successfully with clean code',
+    data: result,
+  });
+});
 
-    const result = await studentServices.deleteStudentDB(studentId);
+const deleteStudent: RequestHandler = catchAsync(async (req, res) => {
+  const { studentId } = req.params;
 
-    sendResponse(res,{
-      statusCode:HttpStatus.OK,
-      success:true,
-      messagw:'student is deleted successfully with clean code',
-      data:result
-    })
-  } catch (error) {
-    next(error)
-  }
-};
+  const result = await studentServices.deleteStudentDB(studentId);
+
+  sendResponse(res, {
+    statusCode: HttpStatus.OK,
+    success: true,
+    messagw: 'student is deleted successfully with clean code',
+    data: result,
+  });
+});
 
 export const studentController = {
   getAllStudents,
   getSingleStudent,
-  deleteStudent
+  deleteStudent,
 };
