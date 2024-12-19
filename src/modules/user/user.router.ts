@@ -4,13 +4,15 @@ import { log } from 'console';
 
 const router = express.Router();
 
-const shenabahini = (req: Request, res: Response, next: NextFunction) => {
+const validateRequest = (name:any) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.body);
-    
-  console.log('I am a shenabahini');
-  next();
+
+    console.log(`I am a shenabahini ${name}`);
+    next();
+  };
 };
 
-router.post('/create-student', shenabahini, UserControllers.createStudent);
+router.post('/create-student', validateRequest("name"), UserControllers.createStudent);
 
 export const UserRoutes = router;
