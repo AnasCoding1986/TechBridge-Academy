@@ -50,42 +50,45 @@ const localGuardianZValidationSchema = z.object({
 });
 
 const studentZvalidationSchema = z.object({
-  id: z.string().min(1, { message: 'Student ID is required' }),
-  password: z
-    .string()
-    .max(20, { message: 'Password can not be more than 20 charecter' }),
-  name: nameZValidationSchema,
-  gender: z.enum(['male', 'female'], {
-    errorMap: () => ({ message: 'Gender must be either "male" or "female"' }),
-  }),
-  dateofBirth: z.string().optional(),
-  email: z
-    .string()
-    .min(1, { message: 'Email is required' })
-    .email({ message: 'Invalid email format' }),
-  contactNo: z.string().min(1, { message: 'Contact number is required' }),
-  emergencyContactNo: z
-    .string()
-    .min(1, { message: 'Emergency contact number is required' }),
-  bloodGroup: z
-    .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
-    .optional()
-    .refine((value) => value, {
-      message: 'Blood group must be a valid type (e.g., "A+", "O-")',
+  body: z.object({
+    password: z
+      .string()
+      .max(20, { message: 'Password can not be more than 20 charecter' }),
+    student: z.object({
+      name: nameZValidationSchema,
+      gender: z.enum(['male', 'female'], {
+        errorMap: () => ({
+          message: 'Gender must be either "male" or "female"',
+        }),
+      }),
+      dateofBirth: z.date().optional(),
+      email: z
+        .string()
+        .min(1, { message: 'Email is required' })
+        .email({ message: 'Invalid email format' }),
+      contactNo: z.string().min(1, { message: 'Contact number is required' }),
+      emergencyContactNo: z
+        .string()
+        .min(1, { message: 'Emergency contact number is required' }),
+      bloodGroup: z
+        .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
+        .optional()
+        .refine((value) => value, {
+          message: 'Blood group must be a valid type (e.g., "A+", "O-")',
+        }),
+      presentAddress: z
+        .string()
+        .min(1, { message: 'Present address is required' }),
+      permanentAddress: z
+        .string()
+        .min(1, { message: 'Permanent address is required' }),
+      guardian: guardianZValidationSchema,
+      localGuardian: localGuardianZValidationSchema,
+      profileImg: z.string().optional(),
     }),
-  presentAddress: z.string().min(1, { message: 'Present address is required' }),
-  permanentAddress: z
-    .string()
-    .min(1, { message: 'Permanent address is required' }),
-  guardian: guardianZValidationSchema,
-  localGuardian: localGuardianZValidationSchema,
-  profileImg: z.string().optional(),
-  isActive: z.enum(['active', 'inActive'], {
-    errorMap: () => ({
-      message: 'Status must be either "active" or "inActive"',
-    }),
   }),
-  isDeleted: z.boolean(),
 });
 
-export default studentZvalidationSchema;
+export const studentZvalidations = {
+  studentZvalidationSchema,
+};

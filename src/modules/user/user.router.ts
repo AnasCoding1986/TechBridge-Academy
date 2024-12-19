@@ -1,18 +1,12 @@
 import express, { NextFunction, Request, Response } from 'express';
 import { UserControllers } from './user.controller';
 import { log } from 'console';
+import { AnyZodObject } from 'zod';
+import { studentZvalidations } from '../student/student.zod.validation';
+import validateRequest from '../../utils/validateRequest';
 
 const router = express.Router();
 
-const validateRequest = (name:any) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-
-    console.log(`I am a shenabahini ${name}`);
-    next();
-  };
-};
-
-router.post('/create-student', validateRequest("name"), UserControllers.createStudent);
+router.post('/create-student', validateRequest(studentZvalidations.studentZvalidationSchema), UserControllers.createStudent);
 
 export const UserRoutes = router;
