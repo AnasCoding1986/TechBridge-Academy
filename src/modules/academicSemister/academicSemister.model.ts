@@ -1,24 +1,7 @@
 import { model, Schema } from 'mongoose';
-import { TAcademicSemister, TAcademicSemisterCode, TAcademicSemisterName, TMonth } from './academicSemister.interface';
+import { TAcademicSemister } from './academicSemister.interface';
 import { string } from 'zod';
-
-const months: TMonth[] = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-export const academicSemesterNames: TAcademicSemisterName[] = ['Autumn', 'Summer', 'Fall'];
-export const academicSemesterCodes: TAcademicSemisterCode[] = ['01', '02', '03'];
+import { academicSemesterCodes, academicSemesterNames, months } from './acadicSemister.const';
 
 const academicSemisterSchema = new Schema<TAcademicSemister>(
   {
