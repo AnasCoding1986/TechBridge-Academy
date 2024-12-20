@@ -16,7 +16,7 @@ const academicSemisterSchema = new Schema<TAcademicSemister>(
       enum:academicSemesterCodes,
     },
     year: {
-      type: Date,
+      type: String,
       required: true,
     },
     startMonth: {
