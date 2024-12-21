@@ -109,11 +109,11 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
       required: [true, 'Student ID is required'],
       unique: true,
     },
-    user:{
-      type:Schema.Types.ObjectId,
-      required:[true, 'User id is required'],
-      unique:true,
-      ref: 'User'
+    user: {
+      type: Schema.Types.ObjectId,
+      required: [true, 'User id is required'],
+      unique: true,
+      ref: 'User',
     },
     name: {
       type: nameSchema,
@@ -189,6 +189,10 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
         validator: (value: string) => validator.isURL(value),
         message: '{VALUE} is not a valid URL',
       },
+      admissionSemister: {
+        type: Schema.Types.ObjectId,
+        ref: 'AcademicSemister',
+      },
     },
     isDeleted: {
       type: Boolean,
@@ -211,7 +215,6 @@ studentSchema.methods.isUserExists = async function (id: string) {
 studentSchema.virtual('FullName').get(function () {
   return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`;
 });
-
 
 studentSchema.pre('find', function (next) {
   this.find({ isDeleted: { $ne: true } });

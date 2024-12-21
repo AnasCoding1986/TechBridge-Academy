@@ -38,6 +38,7 @@ export type IStudent = {
   guardian: Guardian;
   localGuardian: LocalGuardian;
   profileImg?: string; // Optional field for profile image
+  admissionSemister: Types.ObjectId;
   isDeleted: boolean;
 };
 
