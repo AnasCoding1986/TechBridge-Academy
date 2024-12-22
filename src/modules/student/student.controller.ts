@@ -2,7 +2,6 @@ import { Name } from './student.interface';
 import { z } from 'zod';
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { studentServices } from './student.service';
-import studentZvalidationSchema from './student.zod.validation';
 import { error } from 'console';
 import sendResponse from '../../utils/sendResponse';
 import HttpStatus from 'http-status';

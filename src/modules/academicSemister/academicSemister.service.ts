@@ -13,6 +13,25 @@ const createAcademicSemisterIntoDB = async (payload: TAcademicSemister) => {
   return result;
 };
 
+const getAllAcademicSemisterFromDB = async () => {
+  const result = await AcademicSemister.find();
+  return result;
+};
+
+const getSingleAcademicSemisterFromDB = async (id: string) => {
+  // const result = await Student.findOne({ id });
+  const result = await AcademicSemister.aggregate([{$match:{id}}]);
+  return result;
+};
+
+const deleteAcademicSemisterFromDB = async (id: string) => {
+  const result = await AcademicSemister.updateOne({ id },{isDeleted:true});
+  return result;
+};
+
 export const academicServices = {
   createAcademicSemisterIntoDB,
+  getAllAcademicSemisterFromDB,
+  getSingleAcademicSemisterFromDB,
+  deleteAcademicSemisterFromDB
 };

@@ -7,4 +7,10 @@ const router = express.Router();
 
 router.post('/create-academic-semister',validateRequest(academicSemisterValidations.createAcademicSemisterValidationSchema),academicSemisterController.createAcademicSemister);
 
+// router.get('/', academicSemisterController.)
+
+// router.get('/:studentID', studentController.getSingleStudent)
+
+// router.delete('/:studentID', studentController.deleteStudent)
+
 export const academicSemisterRoutes = router;
