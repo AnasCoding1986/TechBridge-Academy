@@ -46,7 +46,7 @@ academicSemisterSchema.pre('save', async function (next) {
   });
 
   if (isSemisterExists) {
-    throw new Error('Semister is already exists')
+    throw new Error('Semister is for continuation already exists')
   };
 
   next()
