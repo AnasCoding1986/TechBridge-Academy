@@ -177,7 +177,7 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
     },
     guardian: {
       type: guardianSchema,
-      required: [true, 'Guardian details are required'],
+      required: [true, 'Guardian details are required for communication'],
     },
     localGuardian: {
       type: localGuardianSchema,
