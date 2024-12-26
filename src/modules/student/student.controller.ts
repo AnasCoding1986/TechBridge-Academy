@@ -13,7 +13,7 @@ const getAllStudents: RequestHandler = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: HttpStatus.OK,
     success: true,
-    messagw: 'student is created successfully with clean code',
+    messagw: 'student retrived successfully with clean code',
     data: result,
   });
 });
