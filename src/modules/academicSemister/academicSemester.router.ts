@@ -7,9 +7,11 @@ const router = express.Router();
 
 router.post('/create-academic-semister',validateRequest(academicSemisterValidations.createAcademicSemisterValidationSchema),academicSemisterController.createAcademicSemister);
 
-// router.get('/', academicSemisterController.)
+router.get('/', academicSemisterController.getAllAcademicSemister)
 
-// router.get('/:studentID', studentController.getSingleStudent)
+router.get('/:academicSemisterID', academicSemisterController.getSingleAcademicSemister)
+
+router.patch('/:academicSemisterID', validateRequest(academicSemisterValidations.updateAcademicSemisterValidationSchema), academicSemisterController.getSingleAcademicSemister)
 
 // router.delete('/:studentID', studentController.deleteStudent)
 

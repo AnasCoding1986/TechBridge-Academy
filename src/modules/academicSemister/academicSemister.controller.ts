@@ -39,8 +39,22 @@ const getSingleAcademicSemister: RequestHandler = catchAsync(async (req, res) =>
   });
 });
 
+const updateAcademicSemister: RequestHandler = catchAsync(async (req, res) => {
+  const { academicSemisterID } = req.params;
+
+  const result = await academicServices.updateAcademicSemisterFromDB(academicSemisterID,req.body);
+
+  sendResponse(res, {
+    statusCode: HttpStatus.OK,
+    success: true,
+    messagw: 'Academic semister updated successfully with clean code',
+    data: result,
+  });
+});
+
 export const academicSemisterController = {
   createAcademicSemister,
   getAllAcademicSemister,
-  getSingleAcademicSemister
+  getSingleAcademicSemister,
+  updateAcademicSemister
 };
