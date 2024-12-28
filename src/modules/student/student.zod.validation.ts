@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+// Phone number validation regex for Bangladeshi numbers (+880XXXXXXXXXX)
+const phoneNumberRegex = /^\+8801[3-9]\d{8}$/;
+
+// Name Validation Schema
 const nameZValidationSchema = z.object({
   firstName: z
     .string()
@@ -21,6 +25,7 @@ const nameZValidationSchema = z.object({
     }),
 });
 
+// Guardian Validation Schema
 const guardianZValidationSchema = z.object({
   fatherName: z.string().min(1, { message: 'Father name is required' }),
   fatherOccupation: z
@@ -28,16 +33,17 @@ const guardianZValidationSchema = z.object({
     .min(1, { message: 'Father occupation is required' }),
   fatherContactNo: z
     .string()
-    .min(1, { message: 'Father contact number is required' }),
+    .regex(phoneNumberRegex, { message: 'Invalid father contact number' }),
   motherName: z.string().min(1, { message: 'Mother name is required' }),
   motherOccupation: z
     .string()
     .min(1, { message: 'Mother occupation is required' }),
   motherContactNo: z
     .string()
-    .min(1, { message: 'Mother contact number is required' }),
+    .regex(phoneNumberRegex, { message: 'Invalid mother contact number' }),
 });
 
+// Local Guardian Validation Schema
 const localGuardianZValidationSchema = z.object({
   name: z.string().min(1, { message: 'Local guardian name is required' }),
   occupation: z
@@ -45,15 +51,16 @@ const localGuardianZValidationSchema = z.object({
     .min(1, { message: 'Local guardian occupation is required' }),
   contactNo: z
     .string()
-    .min(1, { message: 'Local guardian contact number is required' }),
+    .regex(phoneNumberRegex, { message: 'Invalid local guardian contact number' }),
   address: z.string().min(1, { message: 'Local guardian address is required' }),
 });
 
+// Student Validation Schema
 const studentZvalidationSchema = z.object({
   body: z.object({
     password: z
       .string()
-      .max(20, { message: 'Password can not be more than 20 charecter' }),
+      .max(20, { message: 'Password can not be more than 20 characters' }),
     student: z.object({
       name: nameZValidationSchema,
       gender: z.enum(['male', 'female'], {
@@ -61,15 +68,17 @@ const studentZvalidationSchema = z.object({
           message: 'Gender must be either "male" or "female"',
         }),
       }),
-      dateofBirth: z.date().optional(),
+      dateofBirth: z.string().optional(),
       email: z
         .string()
         .min(1, { message: 'Email is required' })
         .email({ message: 'Invalid email format' }),
-      contactNo: z.string().min(1, { message: 'Contact number is required' }),
+      contactNo: z
+        .string()
+        .regex(phoneNumberRegex, { message: 'Invalid contact number' }),
       emergencyContactNo: z
         .string()
-        .min(1, { message: 'Emergency contact number is required' }),
+        .regex(phoneNumberRegex, { message: 'Invalid emergency contact number' }),
       bloodGroup: z
         .enum(['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'])
         .optional()
@@ -85,7 +94,9 @@ const studentZvalidationSchema = z.object({
       guardian: guardianZValidationSchema,
       localGuardian: localGuardianZValidationSchema,
       profileImg: z.string().optional(),
-      admissionSemister: z.string(),
+      admissionSemister: z
+        .string()
+        .min(1, { message: 'Admission semester is required' }),
     }),
   }),
 });

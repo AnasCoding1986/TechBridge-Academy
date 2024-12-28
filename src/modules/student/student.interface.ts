@@ -28,7 +28,7 @@ export type IStudent = {
   password: string;
   name: Name;
   gender: 'male' | 'female';
-  dateofBirth?: Date; // Optional field
+  dateofBirth?: string; // Optional field
   email: string;
   contactNo: string;
   emergencyContactNo: string;

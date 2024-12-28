@@ -129,7 +129,7 @@ const studentSchema = new Schema<IStudent, StudentModel, studentMethods>(
       required: [true, 'Gender is required'],
     },
     dateofBirth: {
-      type: Date,
+      type: String,
       validate: {
         validator: (value: string) => validator.isISO8601(value),
         message: '{VALUE} is not a valid date',
