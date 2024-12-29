@@ -12,20 +12,19 @@ const findLastStudentId = async () => {
       _id: 0,
     },
   )
-    .sort()
+    .sort({
+      createdAt:-1,
+    })
     .lean();
 
     return lastStudent?.id? lastStudent.id.substring(6) : undefined;
 };
 
 export const generateStudentId =async  (payLoad: TAcademicSemister) => {
-
-  console.log(await findLastStudentId());
   
+  const currentId = await findLastStudentId() || (0).toString();
+  let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
+  incrementId = `${payLoad.year}${payLoad.code}${incrementId}`;
 
-  // const currentId = (0).toString();
-  // let incrementId = (Number(currentId) + 1).toString().padStart(4, '0');
-  // incrementId = `${payLoad.year}${payLoad.code}${incrementId}`;
-
-  // return incrementId;
+  return incrementId;
 };
