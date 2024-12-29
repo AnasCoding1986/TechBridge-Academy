@@ -20,7 +20,7 @@ const createStudentIntoDB = async (password: string, payLoad: IStudent) => {
   }
 
   // Generate student ID based on admissionSemister
-  user.id = generateStudentId(admissionSemister);
+  user.id = await generateStudentId(admissionSemister);
 
   // Set password (use provided or default password)
   user.password = password || (config.default_pass as string);
